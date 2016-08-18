@@ -28,7 +28,7 @@
   <script src="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
   <script>
 
-    var mymap = L.map('mapid').setView([34.747635, -92.265845], 11);
+    var mymap = L.map('mapid').setView([34.747635, -92.265845], 15);
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
       maxZoom: 18,
@@ -38,15 +38,29 @@
       id: 'mapbox.streets'
     }).addTo(mymap);
 
+    var myIcon = L.icon({
+        iconUrl: 'beer.png',
+        iconRetinaUrl: 'beer@2x.png',
+        iconSize: [38, 50],
+        iconAnchor: [22, 94],
+        popupAnchor: [-3, -76]
+        
+    });
 
-    L.marker([34.756814, -92.268617]).addTo(mymap)
-      .bindPopup("<b>Flyway Brewing</b><br />Try the blueberry beer!");
+    L.marker([34.743882, -92.275260], {icon: myIcon}).addTo(mymap).bindPopup("<b>Lost Forty</b><br />Try the brunch shorties!");
 
-    L.marker([34.742582, -92.259533]).addTo(mymap)
-      .bindPopup("<b>Lost Forty</b><br />Try the brunch shorties!");
+    L.marker([34.756814, -92.268617], {icon: myIcon}).addTo(mymap).bindPopup("<b>Flyway Brewing</b><br />Try the blueberry beer!");
+
+    L.marker([34.742582, -92.259533], {icon: myIcon}).addTo(mymap).bindPopup("<b>Lost Forty</b><br />Try the brunch shorties!");
+
+
+    
 
    
   </script>
 </body>
 </html>
+
+
+
 
