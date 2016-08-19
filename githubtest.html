@@ -28,9 +28,13 @@
 	<script>
 		var map = L.map('mapid').setView([34.747635, -92.265845], 13);
 
-		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-		}).addTo(map);
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+      maxZoom: 18,
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      id: 'mapbox.streets'
+    }).addTo(map);
 
 		var LeafIcon = L.Icon.extend({
 			options: {
@@ -45,9 +49,9 @@
 			redIcon = new LeafIcon({iconUrl: 'beer.png'}),
 			orangeIcon = new LeafIcon({iconUrl: 'beer.png'});
 
-		L.marker([34.743882, -92.275260], {icon: greenIcon}).bindPopup("<b>Lost Forty</b><br />Try the brunch shorties!").addTo(map);
+		L.marker([34.743882, -92.275260], {icon: greenIcon}).bindPopup("IM A TEST!").addTo(map);
 		L.marker([34.756814, -92.268617], {icon: redIcon}).bindPopup("<b>Flyway Brewing</b><br />Try the blueberry beer!").addTo(map);
-		L.marker([34.742582, -92.259533], {icon: orangeIcon}).bindPopup("IM A TEST!!!!").addTo(map);
+		L.marker([34.742582, -92.259533], {icon: orangeIcon}).bindPopup("<b>Lost Forty</b><br />Try the brunch shorties!").addTo(map);
 
 	</script>
 </body>
