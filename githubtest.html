@@ -35,8 +35,8 @@
 		var LeafIcon = L.Icon.extend({
 			options: {
 				Url: 'beer.png',
-				iconSize:     [38, 95],
-				iconAnchor:   [22, 94],
+				iconSize:     [38, 60],
+				iconAnchor:   [22, 60],
 				popupAnchor:  [-3, -76]
 			}
 		});
@@ -45,9 +45,9 @@
 			redIcon = new LeafIcon({iconUrl: 'beer.png'}),
 			orangeIcon = new LeafIcon({iconUrl: 'beer.png'});
 
-		L.marker([34.743882, -92.275260], {icon: greenIcon}).bindPopup("I am a green leaf.").addTo(map);
-		L.marker([34.756814, -92.268617], {icon: redIcon}).bindPopup("I am a red leaf.").addTo(map);
-		L.marker([34.742582, -92.259533], {icon: orangeIcon}).bindPopup("I am an orange leaf.").addTo(map);
+		L.marker([34.743882, -92.275260], {icon: greenIcon}).bindPopup("<b>Lost Forty</b><br />Try the brunch shorties!").addTo(map);
+		L.marker([34.756814, -92.268617], {icon: redIcon}).bindPopup("<b>Flyway Brewing</b><br />Try the blueberry beer!").addTo(map);
+		L.marker([34.742582, -92.259533], {icon: orangeIcon}).bindPopup("IM A TEST!!!!").addTo(map);
 
 	</script>
 </body>
