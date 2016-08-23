@@ -18,15 +18,22 @@
       html, body, #mapid {
         height: 100%;
       }
+
+      
     </style>
 
 </head>
 <body>
+
 	<div id="mapid"></div>
+
+	
+
 
 	<script src="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
 	<script>
 		var map = L.map('mapid').setView([34.747635, -92.265845], 13);
+
 
 		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
 	      maxZoom: 18,
@@ -52,20 +59,18 @@
 		.bindPopup('<b>Rock Town Distillery</b><br /><a href="https://goo.gl/maps/JDq1ePdgYMy">1216 E 6th St, Little Rock, AR 72202</a><br /><a href="https://www.facebook.com/pages/Rock-Town-Distillery/574804385993576">Rock Town Facebook</a>').addTo(map);
 
 
-		var flyway = L.marker([34.756814, -92.268617], {icon: beer}).bindPopup('<b>Flyway Brewing</b><br /><a href="https://goo.gl/maps/eH4Q54gcuSH2">314 Maple St, North Little Rock, AR 72114</a><br /><a href="https://www.facebook.com/flywaybrewingcompany/">Flyway Brewing Facebook</a>').addTo(map);
+		var flyway = L.marker([34.756814, -92.268617], {icon: beer}).bindPopup('<b>Flyway Brewing</b><br /><a href="https://goo.gl/maps/eH4Q54gcuSH2">314 Maple St, North Little Rock, AR 72114</a><br /><a href="https://www.facebook.com/flywaybrewingcompany/">Flyway Brewing Facebook</a>');
 
 			lostforty = L.marker([34.742437, -92.259532], {icon: beer})
-			.bindPopup('<b>Lost Forty Brewery</b><br /><a href="https://goo.gl/maps/dPUgz6nBwW32">501 Byrd St, Little Rock, AR 72202</a><br /><a href="https://www.facebook.com/lost40beer/">Lost Forty Facebook</a>').addTo(map);
+			.bindPopup('<b>Lost Forty Brewery</b><br /><a href="https://goo.gl/maps/dPUgz6nBwW32">501 Byrd St, Little Rock, AR 72202</a><br /><a href="https://www.facebook.com/lost40beer/">Lost Forty Facebook</a>');
 
-		var Breweries = L.layerGroup([flyway, lostforty]);
+		var Breweries = L.layerGroup([flyway, lostforty]).addTo(map);
 
-		//var baseMaps = {
-		    //"Grayscale": grayscale,
-		    //"Streets": streets
-		//};
+		
 		
 		
 		var brews = {
+
 		    "Breweries": Breweries,
 		    "Distilleries": rocktown
 		};
@@ -73,7 +78,11 @@
 		L.control.layers(null, brews).addTo(map);
 
 	</script>
+
+
+
 </body>
+
 </html>
 
 
