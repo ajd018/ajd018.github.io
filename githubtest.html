@@ -51,10 +51,12 @@
 				popupAnchor:  [-3, -76]
 			}
 		});
+		
 
 		var whiskey = new drinkIcon({iconUrl: 'whiskey.png'}),
 			beer = new drinkIcon({iconUrl: 'beer.png'});
 			pizzabeer = new drinkIcon({iconUrl: 'pizzabeer.png'});
+			dog = new drinkIcon({iconUrl: 'dog.png'});
 
 		var rocktown = L.marker([34.742439, -92.256778], {icon: whiskey})
 		.bindPopup('<b>Rock Town Distillery</b><br /><a href="https://goo.gl/maps/JDq1ePdgYMy">1216 E 6th St, Little Rock, AR 72202</a><br /><a href="https://www.facebook.com/pages/Rock-Town-Distillery/574804385993576">Rock Town Facebook</a>').addTo(map);
@@ -71,6 +73,9 @@
 			rebelkettle = L.marker([34.742272, -92.261677], {icon: beer})
 			.bindPopup('<b>Rebel Kettle Brewery</b><br /><a href="https://goo.gl/maps/Af2NUGeANbq">822 E 6th St, Little Rock, AR 72202</a><br /><a href="https://www.facebook.com/rebelkettle/">Rebel Kettle Facebook</a>');
 
+			core = L.marker([34.757470, -92.267736], {icon: dog})
+			.bindPopup('<b>Core Brewery</b><br /><a href="https://goo.gl/maps/qKEJLRVyAQ32">411 N Main St, North Little Rock, AR 72114</a><br /><a href="https://www.facebook.com/corebrewery/">Core Facebook</a>');
+
 			diamondbear = L.marker([34.759146, -92.272258], {icon: beer})
 			.bindPopup('<b>Diamond Bear Brewery</b><br /><a href="https://goo.gl/maps/EMTxUbPg6CG2">600 N Broadway St, North Little Rock, AR 72114</a><br /><a href="https://www.facebook.com/Diamond-Bear-Brewing-Company-34326089130/">Diamond Bear Facebook</a>');
 
@@ -84,7 +89,7 @@
 
 
 
-		var Breweries = L.layerGroup([flyway, lostforty, stonesthrow, rebelkettle, diamondbear]).addTo(map);
+		var Breweries = L.layerGroup([flyway, lostforty, stonesthrow, rebelkettle, diamondbear, core]).addTo(map);
 		var pizzabeer = L.layerGroup([vinos, damgoode]).addTo(map);
 
 		
