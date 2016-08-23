@@ -54,6 +54,7 @@
 
 		var whiskey = new drinkIcon({iconUrl: 'whiskey.png'}),
 			beer = new drinkIcon({iconUrl: 'beer.png'});
+			pizzabeer = new drinkIcon({iconUrl: 'pizzabeer.png'});
 
 		var rocktown = L.marker([34.742439, -92.256778], {icon: whiskey})
 		.bindPopup('<b>Rock Town Distillery</b><br /><a href="https://goo.gl/maps/JDq1ePdgYMy">1216 E 6th St, Little Rock, AR 72202</a><br /><a href="https://www.facebook.com/pages/Rock-Town-Distillery/574804385993576">Rock Town Facebook</a>').addTo(map);
@@ -64,7 +65,27 @@
 			lostforty = L.marker([34.742437, -92.259532], {icon: beer})
 			.bindPopup('<b>Lost Forty Brewery</b><br /><a href="https://goo.gl/maps/dPUgz6nBwW32">501 Byrd St, Little Rock, AR 72202</a><br /><a href="https://www.facebook.com/lost40beer/">Lost Forty Facebook</a>');
 
-		var Breweries = L.layerGroup([flyway, lostforty]).addTo(map);
+			stonesthrow = L.marker([34.740665, -92.268069], {icon: beer})
+			.bindPopup('<b>Stones Throw Brewery</b><br /><a href="https://goo.gl/maps/f7GmHTcAZ2u">402 E 9th St, Little Rock, AR 72202</a><br /><a href="http://www.stonesthrowbeer.com/">stonesthrowbeer.com</a>');
+
+			rebelkettle = L.marker([34.742272, -92.261677], {icon: beer})
+			.bindPopup('<b>Rebel Kettle Brewery</b><br /><a href="https://goo.gl/maps/Af2NUGeANbq">822 E 6th St, Little Rock, AR 72202</a><br /><a href="https://www.facebook.com/rebelkettle/">Rebel Kettle Facebook</a>');
+
+			diamondbear = L.marker([34.759146, -92.272258], {icon: beer})
+			.bindPopup('<b>Diamond Bear Brewery</b><br /><a href="https://goo.gl/maps/EMTxUbPg6CG2">600 N Broadway St, North Little Rock, AR 72114</a><br /><a href="https://www.facebook.com/Diamond-Bear-Brewing-Company-34326089130/">Diamond Bear Facebook</a>');
+
+		var	vinos = L.marker([34.743411, -92.282077], {icon: pizzabeer})
+			.bindPopup('<b>Vinos</b><br /><a href="https://goo.gl/maps/XrKvAuab59x">923 W 7th St, Little Rock, AR 72201</a><br /><a href="https://www.facebook.com/Vinos-Pizza-Pub-Brewery-117808958245685/le/">Vinos Facebook</a>');
+
+			damgoode = L.marker([34.747768, -92.265306], {icon: pizzabeer})
+			.bindPopup('<b>Damgoode Pies</b><br /><a href="https://goo.gl/maps/q11yUhsFDQr">500 President Clinton Ave, Little Rock, AR 72201</a><br /><a href="https://www.facebook.com/damgoodepies/">Damgoode Pies Facebook</a>');
+
+
+
+
+
+		var Breweries = L.layerGroup([flyway, lostforty, stonesthrow, rebelkettle, diamondbear]).addTo(map);
+		var pizzabeer = L.layerGroup([vinos, damgoode]).addTo(map);
 
 		
 		
@@ -72,7 +93,8 @@
 		var brews = {
 
 		    "Breweries": Breweries,
-		    "Distilleries": rocktown
+		    "Distilleries": rocktown,
+		    "Pizza & Beer": pizzabeer
 		};
 		
 		L.control.layers(null, brews).addTo(map);
@@ -84,7 +106,6 @@
 </body>
 
 </html>
-
 
 
 
