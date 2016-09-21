@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hops</title>
+  <meta charset="utf-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
+
+  <script src="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+
+  <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      html, body, #mapid {
+        height: 100%;
+      }
+      
+      
+    </style>
+
+</head>
+<body>
+	
+
+
+	<div id="mapid"></div>
+
+	
+	<div style="position: relative">
+    	<p style="
+    	position: fixed; 
+    	bottom: 0; 
+    	width:100%; 
+    	text-align: center; 
+    	z-index: 1000; 
+    	color: white; 
+    	font-weight: bold;
+    	text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue">
+    	<font size="5">Little Rock Beer Map</font></p>
+    </div>
+	
+
+
+	<script src="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+	<script>
+		var map = L.map('mapid').setView([34.747635, -92.265845], 13);
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+	      maxZoom: 18,
+	      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+	        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+	        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	      id: 'mapbox.streets'
+	    }).addTo(map);
+		var drinkIcon = L.Icon.extend({
+			options: {
+				Url: 'beer.png',
+				iconSize:     [38, 60],
+				iconAnchor:   [22, 60],
+				popupAnchor:  [-3, -76]
+			}
+		});
+		
+		var whiskey = new drinkIcon({iconUrl: 'whiskey.png'}),
+			beer = new drinkIcon({iconUrl: 'beer.png'});
+			pizzabeer = new drinkIcon({iconUrl: 'pizzabeer.png'});
+			dog = new drinkIcon({iconUrl: 'dog.png'});
+		var rocktown = L.marker([34.742439, -92.256778], {icon: whiskey})
+		.bindPopup('<b>Rock Town Distillery</b><br /><a href="https://goo.gl/maps/JDq1ePdgYMy">1216 E 6th St, Little Rock, AR 72202</a><br /><a href="https://www.facebook.com/pages/Rock-Town-Distillery/574804385993576">Rock Town Facebook</a>').addTo(map);
+		var core = L.marker([34.757470, -92.267736], {icon: dog})
+			.bindPopup('<b>Core Brewery</b><br /><a href="https://goo.gl/maps/qKEJLRVyAQ32">411 N Main St, North Little Rock, AR 72114</a><br /><a href="https://www.facebook.com/corebrewery/">Core Facebook</a>');
+			flyway = L.marker([34.756814, -92.268617], {icon: beer}).bindPopup('<b>Flyway Brewing</b><br /><a href="https://goo.gl/maps/eH4Q54gcuSH2">314 Maple St, North Little Rock, AR 72114</a><br /><a href="https://www.facebook.com/flywaybrewingcompany/">Flyway Brewing Facebook</a>');
+			lostforty = L.marker([34.742437, -92.259532], {icon: beer})
+			.bindPopup('<b>Lost Forty Brewery</b><br /><a href="https://goo.gl/maps/dPUgz6nBwW32">501 Byrd St, Little Rock, AR 72202</a><br /><a href="https://www.facebook.com/lost40beer/">Lost Forty Facebook</a>');
+			stonesthrow = L.marker([34.740665, -92.268069], {icon: beer})
+			.bindPopup('<b>Stones Throw Brewery</b><br /><a href="https://goo.gl/maps/f7GmHTcAZ2u">402 E 9th St, Little Rock, AR 72202</a><br /><a href="http://www.stonesthrowbeer.com/">stonesthrowbeer.com</a>');
+			rebelkettle = L.marker([34.742272, -92.261677], {icon: beer})
+			.bindPopup('<b>Rebel Kettle Brewery</b><br /><a href="https://goo.gl/maps/Af2NUGeANbq">822 E 6th St, Little Rock, AR 72202</a><br /><a href="https://www.facebook.com/rebelkettle/">Rebel Kettle Facebook</a>');
+			
+			diamondbear = L.marker([34.759146, -92.272258], {icon: beer})
+			.bindPopup('<b>Diamond Bear Brewery</b><br /><a href="https://goo.gl/maps/EMTxUbPg6CG2">600 N Broadway St, North Little Rock, AR 72114</a><br /><a href="https://www.facebook.com/Diamond-Bear-Brewing-Company-34326089130/">Diamond Bear Facebook</a>');
+		var	vinos = L.marker([34.743411, -92.282077], {icon: pizzabeer})
+			.bindPopup('<b>Vinos</b><br /><a href="https://goo.gl/maps/XrKvAuab59x">923 W 7th St, Little Rock, AR 72201</a><br /><a href="https://www.facebook.com/Vinos-Pizza-Pub-Brewery-117808958245685/le/">Vinos Facebook</a>');
+			damgoode = L.marker([34.747768, -92.265306], {icon: pizzabeer})
+			.bindPopup('<b>Damgoode Pies</b><br /><a href="https://goo.gl/maps/q11yUhsFDQr">500 President Clinton Ave, Little Rock, AR 72201</a><br /><a href="https://www.facebook.com/damgoodepies/">Damgoode Pies Facebook</a>');
+		var Breweries = L.layerGroup([flyway, lostforty, stonesthrow, rebelkettle, diamondbear, core]).addTo(map);
+		var pizzabeer = L.layerGroup([vinos, damgoode]).addTo(map);
+		
+		
+		
+		var brews = {
+		    "Breweries": Breweries,
+		    "Distilleries": rocktown,
+		    "Pizza & Beer": pizzabeer
+		};
+		
+		L.control.layers(null, brews).addTo(map);
+	</script>
+
+
+
+</body>
+
+</html>
