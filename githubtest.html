@@ -1,46 +1,130 @@
 <!DOCTYPE html>
 <html>
-<head>
-<script>
-function convert(degree) {
-    if (degree == "C") {
-    	
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
-		var D = document.getElementById("c").value;
-		document.getElementById("d").value = parseInt(D);
-
-		var M = document.getElementById("c").value;
-		document.getElementById("m").value = parseInt(60 * (parseFloat(M) - parseInt(D)));
-
-		var S = document.getElementById("c").value;
-		document.getElementById("s").value = Number(((parseFloat(M) - parseInt(D)) - ((parseInt(60 * (parseFloat(M) - parseInt(D)))) / 60)) * 3600).toFixed(4);
-		
- 
- 		document.getElementById("x").value = parseInt(D) + " DEG " + parseInt(60 * (parseFloat(M) - parseInt(D))) + "' " + ((((parseFloat(M) - parseInt(D)) - ((parseInt(60 * (parseFloat(M) - parseInt(D)))) / 60)) * 3600)).toFixed(4) + "'";
-  }
+<style>
+input[type="text"], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 
 
+div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+#d {
+  display: none;
+}
+#m {
+  display: none;
+}
+#s {
+  display: none;
+}
+#dd {
+  display: none;
+}
+#mm {
+  display: none;
+}
+#ss {
+  display: none;
+}
+</style>
 
+<script>
+
+function convert(degree) {
+    if (degree == "C") {
+        
+
+        var D = document.getElementById("c").value;
+        document.getElementById("d").value = parseInt(D);
+
+        var M = document.getElementById("c").value;
+        document.getElementById("m").value = parseInt(60 * (parseFloat(M) - parseInt(D)));
+
+        var S = document.getElementById("c").value;
+        document.getElementById("s").value = Number(((parseFloat(M) - parseInt(D)) - ((parseInt(60 * (parseFloat(M) - parseInt(D)))) / 60)) * 3600).toFixed(4);
+        
+ 
+        document.getElementById("x").value = parseInt(D) + '° ' + parseInt(60 * (parseFloat(M) - parseInt(D))) + "' " + ((((parseFloat(M) - parseInt(D)) - ((parseInt(60 * (parseFloat(M) - parseInt(D)))) / 60)) * 3600)).toFixed(4) + "'";
+  }
+
+  if (degree == "CC") {
+        
+
+        var DD = document.getElementById("cc").value;
+        document.getElementById("dd").value = parseInt(DD);
+
+        var MM = document.getElementById("cc").value;
+        document.getElementById("mm").value = parseInt(60 * (parseFloat(MM) - parseInt(DD)));
+
+        var SS = document.getElementById("cc").value;
+        document.getElementById("ss").value = Number(((parseFloat(MM) - parseInt(DD)) - ((parseInt(60 * (parseFloat(MM) - parseInt(DD)))) / 60)) * 3600).toFixed(4);
+        
+ 
+        document.getElementById("xx").value = parseInt(DD) + '° ' + parseInt(60 * (parseFloat(MM) - parseInt(DD))) + "' " + ((((parseFloat(MM) - parseInt(DD)) - ((parseInt(60 * (parseFloat(MM) - parseInt(DD)))) / 60)) * 3600)).toFixed(4) + "'";
+  }
+}
+
+function e(element)
+{return document.getElementById(element);}
+
+function f(element)
+{return parseFloat(e(element).value);}
+         
+function updateResult()
+{
+    e("inputE").value = f("inputA") + (f("inputB") / 60) + (f("inputC") / 3600);
+    e("inputG").value = f("inputD") + (f("inputE") / 60) + (f("inputF") / 3600);
+}
 
 
 
 </script>
-</head>
-
 <body>
 
-<input id="c" onkeyup="convert('C')"> Decimal Degrees equals<br>
-<input id="d" onkeyup="convert('D')"> Degrees<br>
-<input id="m" onkeyup="convert('M')"> Minutes<br>
-<input id="s" onkeyup="convert('S')"> Seconds<br>
-<input id="x"> All<br>
+<h3>Decimal Degree to DMS Converter</h3>
+
+<div>
+LAT Decimal Degrees equals <input type="text" id="c" onkeyup="convert('C')">
+<input id="d" name="d" onkeyup="convert('D')"> 
+<input id="m" name="m" onkeyup="convert('M')"> 
+<input id="s" name="s" onkeyup="convert('S')"> 
+Degrees Minutes Seconds<input type="text" id="x">
+
+LAT Decimal Degrees equals <input type="text" id="cc" onkeyup="convert('CC')">
+<input id="dd" name="dd" onkeyup="convert('DD')"> 
+<input id="mm" name="mm" onkeyup="convert('MM')"> 
+<input id="ss" name="ss" onkeyup="convert('SS')"> 
+Degrees Minutes Seconds<input type="text" id="xx">
+</div>
 
 
+<h3>DMS to Decimal Degree Converter</h3>
 
+<div onkeyup="updateResult()">
+Degrees: <input type="text" id="inputA">
+Minutes: <input type="text" id="inputB">
+Seconds: <input type="text" id="inputC"><br>
+<br>Decimal Degrees:<br> <input type="text" id="inputE" readonly="true"><br>
+</div>
 
+<div onkeyup="updateResult()">
+<br>Degrees:<input type="text" id="inputD">
+Minutes:<input type="text" id="inputE">
+Seconds:<input type="text" id="inputF"><br>
+<br>Decimal Degrees:<br> <input type="text" id="inputG" readonly="true">
+</div>
 
 </body>
-
 </html>
