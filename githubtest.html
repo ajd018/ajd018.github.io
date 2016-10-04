@@ -4,7 +4,7 @@
 
 <style>
 input[type="text"], select {
-    width: 100%;
+    width: 150px;
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
@@ -19,6 +19,7 @@ div {
     border-radius: 5px;
     background-color: #f2f2f2;
     padding: 20px;
+    width: 700px;
 }
 #d {
   display: none;
@@ -96,13 +97,13 @@ function updateResult()
 <h3>Decimal Degree to DMS Converter</h3>
 
 <div>
-LAT Decimal Degrees equals <input type="text" id="c" onkeyup="convert('C')">
+LAT Decimal Degrees equals <input type="text" id="c" onkeyup="convert('C')" >
 <input id="d" name="d" onkeyup="convert('D')"> 
 <input id="m" name="m" onkeyup="convert('M')"> 
 <input id="s" name="s" onkeyup="convert('S')"> 
-Degrees Minutes Seconds<input type="text" id="x">
+Degrees Minutes Seconds<input type="text" id="x"><br>
 
-LAT Decimal Degrees equals <input type="text" id="cc" onkeyup="convert('CC')">
+LON Decimal Degrees equals <input type="text" id="cc" onkeyup="convert('CC')">
 <input id="dd" name="dd" onkeyup="convert('DD')"> 
 <input id="mm" name="mm" onkeyup="convert('MM')"> 
 <input id="ss" name="ss" onkeyup="convert('SS')"> 
@@ -113,17 +114,17 @@ Degrees Minutes Seconds<input type="text" id="xx">
 <h3>DMS to Decimal Degree Converter</h3>
 
 <div onkeyup="updateResult()">
-Degrees: <input type="text" id="inputA">
-Minutes: <input type="text" id="inputB">
-Seconds: <input type="text" id="inputC"><br>
-<br>Decimal Degrees:<br> <input type="text" id="inputE" readonly="true"><br>
+<input type="text" id="inputA"> Degrees
+<input type="text" id="inputB"> Minutes
+<input type="text" id="inputC"> Seconds<br>
+<br><br> <input type="text" id="inputE" readonly="true">Decimal Degrees:<br>
 </div>
 
 <div onkeyup="updateResult()">
-<br>Degrees:<input type="text" id="inputD">
-Minutes:<input type="text" id="inputE">
-Seconds:<input type="text" id="inputF"><br>
-<br>Decimal Degrees:<br> <input type="text" id="inputG" readonly="true">
+<br><input type="text" id="inputD"> Degrees
+<input type="text" id="inputE"> Minutes
+<input type="text" id="inputF"> Seconds<br> 
+<br><br> <input type="text" id="inputG" readonly="true"> Decimal Degrees
 </div>
 
 </body>
