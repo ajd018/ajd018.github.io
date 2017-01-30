@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>Popup</title>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/3.18/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.18/esri/css/esri.css">
+    <style>
+      html, body, #map {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+      }
+
+      
+      /* Change color of icons to match bar chart and selection symbol */
+      .esriPopup.dark div.titleButton, 
+     
+      .esriPopup.dark div.actionsPane .action {
+        color: #A4CE67;
+      }
+
+      /* Additional customizations */
+     
+      .esriPopup .contentPane {
+        font-size: 12px;
+        line-height: 16px;
+        height: 16px;
+        position: fixed;
+        z-index: 10;
+        top: 63%;
+        right: 0%;
+        width: 300px;
+        height: 150px;
+        padding: 10px;
+        border: 0;
+        border-radius: 3px 3px 0 0;
+        -webkit-border-radius: 3px 3px 0 0;
+      }
+      .esriViewPopup .gallery {
+        margin: 0 auto;
+      }
+      .esriPopup.light .titlePane, .esriPopup.dark .titlePane {
+        font-size: 12px;
+        line-height: 16px;
+        height: 16px;
+        position: fixed;
+        z-index: 10;
+        top: 60%;
+        right: 0%;
+        width: 300px;
+        padding: 10px;
+        border: 0;
+        border-radius: 3px 3px 0 0;
+        -webkit-border-radius: 3px 3px 0 0;
+      }
+      .
+
+      .esriPopup.light .actionsPane, .esriPopup.dark .actionsPane {
+        padding: 0;
+        border-radius: 0px 0px 3px 3px;
+        -webkit-border-radius: 0px 0px 3px 3px;
+        border: 0;
+      }
+
+      .esriPopup.light .actionsPane, .esriPopup.dark .actionsPane {
+        font-size: 12px;
+        line-height: 16px;
+        height: 16px;
+        position: fixed;
+        z-index: 10;
+        width: 16px;
+        padding: 0px;
+        border: 0;
+        border-radius: 3px 3px 0 0;
+        -webkit-border-radius: 3px 3px 0 0;
+        top: 75%;
+        right: 1%;
+      }
+      
+
+
+      .esriPopup.dark .pointer, .esriPopup.dark .outerPointer  {
+        background: rgba(85, 84, 84, 0);
+        border: 0;
+        box-shadow: 0 0 0.55em #ccc;
+        -webkit-box-shadow: 0 0 0.55em rgba(204, 204, 204, 0);
+      }
+      .esriPopup.dark .pointer.top, .esriPopup.dark .pointer.topLeft, .esriPopup.dark .pointer.topRight {
+        background: rgba(85, 84, 84, 0);
+      }
+
+       #leftPane {
+        width: 20%;
+      }
+
+      #legendPane {
+        border: solid #97DCF2 1px;
+      }
+
+      .esriLegendServiceLabel {
+          
+          display: none;
+      }
+           
+      
+
+    </style>
+
+    <script src="https://js.arcgis.com/3.18/"></script>
+    <script>
+      var map;
+      require([
+        "esri/urlUtils", "esri/map", "esri/dijit/OverviewMap", "esri/dijit/BasemapGallery", "esri/arcgis/utils", "esri/dijit/LayerList", "esri/dijit/Search", 
+        "esri/dijit/Popup", "esri/dijit/PopupTemplate", "esri/dijit/Directions",
+        "esri/layers/FeatureLayer", "esri/InfoTemplate", 
+        "esri/symbols/SimpleLineSymbol", "esri/symbols/PictureMarkerSymbol", "esri/symbols/SimpleFillSymbol", "esri/symbols/SimpleMarkerSymbol", 
+        "esri/renderers/UniqueValueRenderer", "esri/Color", "esri/dijit/Legend", 
+        "dojo/dom-class", "dojo/dom-construct", "dojo/parser", "dijit/layout/BorderContainer", "dijit/layout/ContentPane", 
+        "dojo/_base/array", "dojo/on",
+        "dojox/charting/Chart", "dojox/charting/themes/Dollar",
+        "dojo/domReady!", "dijit/form/CheckBox", "dijit/form/Button", "dijit/WidgetSet"
+      ], function(
+        urlUtils, Map, OverviewMap, BasemapGallery, utils, LayerList, Search, Popup, PopupTemplate, Directions,
+        FeatureLayer, InfoTemplate, 
+        SimpleLineSymbol, PictureMarkerSymbol, SimpleFillSymbol, SimpleMarkerSymbol, 
+        UniqueValueRenderer, Color, Legend, 
+        domClass, domConstruct, parser, arrayUtils, on,
+        Chart, theme, CheckBox
+      ) {
+
+        parser.parse();
+
+        urlUtils.addProxyRule({
+          urlPrefix: "route.arcgis.com",
+          proxyUrl: "/sproxy/"
+        });
+        urlUtils.addProxyRule({
+          urlPrefix: "traffic.arcgis.com",
+          proxyUrl: "/sproxy/"
+        });
+        //The popup is the default info window so you only need to create the popup and 
+        //assign it to the map if you want to change default properties. Here we are 
+        //noting that the specified title content should display in the header bar 
+        //and providing our own selection symbol for polygons.
+        var fill = new SimpleFillSymbol("solid", null, new Color("#41f2ec"));
+        var popup = new Popup({
+            
+            titleInBody: false
+        }, domConstruct.create("div"));
+        //Add the dark theme which is customized further in the <style> tag at the top of this page
+        domClass.add(popup.domNode, "dark");
+
+        var legendLayers = [];
+
+        map = new Map("map", {
+          basemap: "dark-gray",
+          center: [-92.289597, 34.746483],
+          zoom: 13,
+          infoWindow: popup
+        });
+
+        var directions = new Directions({
+          map: map
+          // --------------------------------------------------------------------
+          // New constuctor option and property showSaveButton added at version
+          // 3.17 to allow saving route. For more information see the API Reference.
+          // https://developers.arcgis.com/javascript/3/jsapi/directions-amd.html#showsavebutton
+          //
+          // Uncomment the line below to add the save button to the Directions widget
+          // --------------------------------------------------------------------
+          // , showSaveButton: true
+        },"dir");
+        directions.startup();
+        
+
+      
+
+        var basemapGallery = new BasemapGallery({
+          showArcGISBasemaps: true,
+          map: map
+        }, "basemapGallery");
+        basemapGallery.startup();
+        
+        basemapGallery.on("error", function(msg) {
+          console.log("basemap gallery error:  ", msg);
+        });
+       
+
+        var template = new PopupTemplate({
+            
+          description: 'name: {name} <br>address: {address} <br>city : {city} <br>phone: {phone} <br>hours: {hours} <br>administrator_name: {administrator_name}',
+             
+        });
+
+        var line = new SimpleLineSymbol();
+        line.setWidth(3.5);
+
+        function dashcreateSymbol (color) {
+            return new SimpleLineSymbol(SimpleLineSymbol.STYLE_SHORTDOT);
+          }
+
+          
+          var emergency = new PictureMarkerSymbol('emergency.png', 20, 20);
+          var services = new PictureMarkerSymbol('services.png', 20, 20);
+          var copter = new PictureMarkerSymbol('copter.png', 20, 20);
+          var hospital = new PictureMarkerSymbol('hospital.png', 20, 20);
+          var local = new PictureMarkerSymbol('local.png', 20, 20);
+          var longterm = new PictureMarkerSymbol('longterm.png', 20, 20);
+          var rural = new PictureMarkerSymbol('rural.png', 20, 20);
+          var veterans = new PictureMarkerSymbol('veterans.png', 20, 20);
+          
+
+          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+          var EMERG_MEDICAL_SERVICES_AHD = new UniqueValueRenderer();
+
+          EMERG_MEDICAL_SERVICES_AHD.addValue({
+            symbol: emergency.setSize(20),
+            label: "Emergency Services"
+          });
+          
+          var layerzero = new FeatureLayer("http://gis.arkansas.gov/arcgis/rest/services/FEATURESERVICES/Health/FeatureServer/0",{
+            mode: FeatureLayer.MODE_ONDEMAND,
+            outFields: ["*"],
+            infoTemplate: template
+          });
+          layerzero.setRenderer(EMERG_MEDICAL_SERVICES_AHD);
+          map.addLayer(layerzero);
+          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+          var HELIPORTS_ADH = new UniqueValueRenderer();
+
+          HELIPORTS_ADH.addValue({
+            symbol: copter.setSize(20),
+            label: "Hospital Related Services"
+          });
+          
+          var layerone = new FeatureLayer("http://gis.arkansas.gov/arcgis/rest/services/FEATURESERVICES/Health/FeatureServer/1",{
+            mode: FeatureLayer.MODE_ONDEMAND,
+            outFields: ["*"],
+            infoTemplate: template
+          });
+          layerone.setRenderer(HELIPORTS_ADH);
+          map.addLayer(layerone);
+
+          
+          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+          var HOSPITAL_RELATED_SERVICES_ADH = new UniqueValueRenderer();
+
+          HOSPITAL_RELATED_SERVICES_ADH.addValue({
+            symbol: services.setSize(20),
+            label: "Hospital Related Services"
+          });
+          
+          var layertwo = new FeatureLayer("http://gis.arkansas.gov/arcgis/rest/services/FEATURESERVICES/Health/FeatureServer/2",{
+            mode: FeatureLayer.MODE_ONDEMAND,
+            outFields: ["*"],
+            infoTemplate: template
+          });
+          layertwo.setRenderer(HOSPITAL_RELATED_SERVICES_ADH);
+          map.addLayer(layertwo);
+
+          ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+          
+
+          var HOSPITALS_ADH = new UniqueValueRenderer();
+
+          HOSPITALS_ADH.addValue({
+            symbol: hospital.setSize(20),
+            label: "HOSPITALS"
+          });
+          
+          var layerthree = new FeatureLayer("http://gis.arkansas.gov/arcgis/rest/services/FEATURESERVICES/Health/FeatureServer/3",{
+            mode: FeatureLayer.MODE_ONDEMAND,
+            outFields: ["*"],
+            infoTemplate: template
+          });
+          layerthree.setRenderer(HOSPITALS_ADH);
+          map.addLayer(layerthree);
+          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+          var LOCAL_HEALTH_UNITS_ADH = new UniqueValueRenderer();
+
+          LOCAL_HEALTH_UNITS_ADH.addValue({
+            symbol: local.setSize(20),
+            label: "LOCAL HEALTH UNITS"
+          });
+          
+          var layerfour = new FeatureLayer("http://gis.arkansas.gov/arcgis/rest/services/FEATURESERVICES/Health/FeatureServer/4",{
+            mode: FeatureLayer.MODE_ONDEMAND,
+            outFields: ["*"],
+            infoTemplate: template
+          });
+          layerfour.setRenderer(LOCAL_HEALTH_UNITS_ADH);
+          map.addLayer(layerfour);
+
+          
+          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+          var LONG_TERM_CARE_FACILITIES_ADH = new UniqueValueRenderer();
+
+          LONG_TERM_CARE_FACILITIES_ADH.addValue({
+            symbol: longterm.setSize(20),
+            label: "LONG TERM CARE FACILITIES"
+          });
+          
+          var layerfive = new FeatureLayer("http://gis.arkansas.gov/arcgis/rest/services/FEATURESERVICES/Health/FeatureServer/5",{
+            mode: FeatureLayer.MODE_ONDEMAND,
+            outFields: ["*"],
+            infoTemplate: template
+          });
+          layerfive.setRenderer(LONG_TERM_CARE_FACILITIES_ADH);
+          map.addLayer(layerfive);
+
+          ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+          var RURAL_HEALTH_CLINICS_ADH = new UniqueValueRenderer();
+
+          RURAL_HEALTH_CLINICS_ADH.addValue({
+            symbol: rural.setSize(20),
+            label: "RURAL HEALTH CLINICS"
+          });
+          
+          var layersix = new FeatureLayer("http://gis.arkansas.gov/arcgis/rest/services/FEATURESERVICES/Health/FeatureServer/6",{
+            mode: FeatureLayer.MODE_ONDEMAND,
+            outFields: ["*"],
+            infoTemplate: template
+          });
+          layersix.setRenderer(RURAL_HEALTH_CLINICS_ADH);
+          map.addLayer(layersix);
+
+          ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+          var VETERANS_AFFAIRS_SERVICES_ADH = new UniqueValueRenderer();
+
+          VETERANS_AFFAIRS_SERVICES_ADH.addValue({
+            symbol: veterans.setSize(20),
+            label: "VETERANS AFFAIRS SERVICES"
+          });
+          
+          var layerseven = new FeatureLayer("http://gis.arkansas.gov/arcgis/rest/services/FEATURESERVICES/Health/FeatureServer/7",{
+            mode: FeatureLayer.MODE_ONDEMAND,
+            outFields: ["*"],
+            infoTemplate: template
+          });
+          layerseven.setRenderer(VETERANS_AFFAIRS_SERVICES_ADH);
+          map.addLayer(layerseven);
+
+          ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+          var HEALTH_REGIONS_ADH = new UniqueValueRenderer();
+
+          HEALTH_REGIONS_ADH.addValue({
+            symbol: dashcreateSymbol().setColor(new Color([250, 52, 17, 1])).setWidth(5),
+            label: "HEALTH REGIONS"
+          });
+          
+          var layereight = new FeatureLayer("http://gis.arkansas.gov/arcgis/rest/services/FEATURESERVICES/Health/FeatureServer/8",{
+            mode: FeatureLayer.MODE_ONDEMAND,
+            outFields: ["*"],
+            infoTemplate: template
+          });
+          layereight.setRenderer(HEALTH_REGIONS_ADH);
+          map.addLayer(layereight);
+
+          ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+          map.on("load", function(evt){
+            var legend = new Legend({
+              map: map,
+              layerInfos: [
+              {layer: layerzero},
+              {layer: layerone},
+              {layer: layertwo},
+              {layer: layerthree},
+              {layer: layerfour},
+              {layer: layerfive},
+              {layer: layersix},
+              {layer: layerseven},
+              {layer: layereight}
+
+              ]
+            }, "legendDiv");
+            
+            legend.startup(); 
+          });
+
+          var layerList = new LayerList({
+              map: map,
+              layers: [ { layer: layerzero, visibility: true }, 
+              { layer: layerone, visibility: true }, 
+              { layer: layertwo, visibility: true }, 
+              { layer: layerthree, visibility: true }, 
+              { layer: layerfour, visibility: true }, 
+              { layer: layerfive, visibility: true }, 
+              { layer: layersix, visibility: true }, 
+              { layer: layerseven, visibility: true }, 
+              { layer: layereight, visibility: true } ],
+              //layers: arcgisUtils.getLayerList(response),
+              removeUnderscores: true,
+              showLegend: false
+            }, "toggle");
+            layerList.startup();
+          
+         
+
+          var search = new Search({
+              enableButtonMode: true, //this enables the search widget to display as a single button
+              enableLabel: false,
+              enableInfoWindow: true,
+              showInfoWindowOnSelect: true,
+              map: map
+          }, "search");
+
+          var sources = search.get("sources");
+
+         
+
+
+
+           //Set the sources above to the search widget
+           search.set("sources", sources);
+
+           search.startup();
+
+           
+
+
+
+
+        
+      });
+    </script>
+</head>
+  
+  <body class="claro">
+
+<div id="content"
+     data-dojo-type="dijit/layout/BorderContainer"
+     data-dojo-props="design:'headline', gutters:true"
+     style="width: 100%; height: 100%; margin: 0;">
+
+  <div id="leftPane"
+       data-dojo-type="dijit/layout/ContentPane"
+       data-dojo-props="region:'left'">
+
+    <div data-dojo-type="dijit/layout/AccordionContainer">
+      <div data-dojo-type="dijit/layout/ContentPane" id="legendPane"
+           data-dojo-props="title:'Legend', selected:true">
+        <div id="search"></div>
+        
+        <div id="legendDiv"></div>
+
+
+      </div>
+      <div data-dojo-type="dijit/layout/ContentPane"
+           data-dojo-props="title:'Basemap Gallery', selected:true">
+        
+        <div id="basemapGallery"></div>
+      </div>
+      <div data-dojo-type="dijit/layout/ContentPane"
+           data-dojo-props="title:'LayerToggle', selected:true">
+        
+        
+        <div id="toggle"></div>
+        <div id="overviewMapDiv" style="width:95%;"></div>
+      </div>
+      <div data-dojo-type="dijit/layout/ContentPane"
+           data-dojo-props="title:'Directions', selected:true">
+        
+        
+         <div id="dir"></div>
+        
+      </div>
+    </div>
+  </div>
+  <div id="map"
+       data-dojo-type="dijit/layout/ContentPane"
+       data-dojo-props="region:'center'"
+       style="overflow:hidden;">
+  </div>
+
+
+  
+</div>
+
+
+      
+</body>
+
+</html>
