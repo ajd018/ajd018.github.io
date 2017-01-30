@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+input[type="text"], select {
+    width: 150px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+
+div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    width: 700px;
+}
+#d {
+  display: none;
+}
+#m {
+  display: none;
+}
+#s {
+  display: none;
+}
+#dd {
+  display: none;
+}
+#mm {
+  display: none;
+}
+#ss {
+  display: none;
+}
+</style>
+
+<script>
+
+function convert(degree) {
+    if (degree == "C") {
+        
+
+        var D = document.getElementById("c").value;
+        document.getElementById("d").value = parseInt(D);
+
+        var M = document.getElementById("c").value;
+        document.getElementById("m").value = parseInt(60 * (parseFloat(M) - parseInt(D)));
+
+        var S = document.getElementById("c").value;
+        document.getElementById("s").value = Number(((parseFloat(M) - parseInt(D)) - ((parseInt(60 * (parseFloat(M) - parseInt(D)))) / 60)) * 3600).toFixed(4);
+        
+ 
+        document.getElementById("x").value = parseInt(D) + '° ' + parseInt(60 * (parseFloat(M) - parseInt(D))) + "' " + ((((parseFloat(M) - parseInt(D)) - ((parseInt(60 * (parseFloat(M) - parseInt(D)))) / 60)) * 3600)).toFixed(4) + "'";
+  }
+
+  if (degree == "CC") {
+        
+
+        var DD = document.getElementById("cc").value;
+        document.getElementById("dd").value = parseInt(DD);
+
+        var MM = document.getElementById("cc").value;
+        document.getElementById("mm").value = parseInt(60 * (parseFloat(MM) - parseInt(DD)));
+
+        var SS = document.getElementById("cc").value;
+        document.getElementById("ss").value = Number(((parseFloat(MM) - parseInt(DD)) - ((parseInt(60 * (parseFloat(MM) - parseInt(DD)))) / 60)) * 3600).toFixed(4);
+        
+ 
+        document.getElementById("xx").value = parseInt(DD) + '° ' + parseInt(60 * (parseFloat(MM) - parseInt(DD))) + "' " + ((((parseFloat(MM) - parseInt(DD)) - ((parseInt(60 * (parseFloat(MM) - parseInt(DD)))) / 60)) * 3600)).toFixed(4) + "'";
+  }
+}
+
+function e(element)
+{return document.getElementById(element);}
+
+function f(element)
+{return parseFloat(e(element).value);}
+         
+function updateResult()
+{
+    e("inputE").value = f("inputA") + (f("inputB") / 60) + (f("inputC") / 3600);
+    e("inputG").value = f("inputD") + (f("inputE") / 60) + (f("inputF") / 3600);
+}
+
+
+
+</script>
+<body>
+
+<h3>Decimal Degree to DMS Converter</h3>
+
+<div>
+<input type="text" id="c" onkeyup="convert('C')" >LAT Decimal Degrees<br>
+<input id="d" name="d" onkeyup="convert('D')"> 
+<input id="m" name="m" onkeyup="convert('M')"> 
+<input id="s" name="s" onkeyup="convert('S')"> 
+<input type="text" id="x">Degrees Minutes Seconds<br>
+
+<input type="text" id="cc" onkeyup="convert('CC')">LON Decimal Degrees<br>
+<input id="dd" name="dd" onkeyup="convert('DD')"> 
+<input id="mm" name="mm" onkeyup="convert('MM')"> 
+<input id="ss" name="ss" onkeyup="convert('SS')"> 
+<input type="text" id="xx">Degrees Minutes Seconds
+</div>
+
+
+<h3>DMS to Decimal Degree Converter</h3>
+
+<div onkeyup="updateResult()">
+<input type="text" id="inputA"> Degrees
+<input type="text" id="inputB"> Minutes
+<input type="text" id="inputC"> Seconds<br>
+<br><br> <input type="text" id="inputE" readonly="true">Decimal Degrees:<br>
+</div>
+
+<div onkeyup="updateResult()">
+<br><input type="text" id="inputD"> Degrees
+<input type="text" id="inputE"> Minutes
+<input type="text" id="inputF"> Seconds<br> 
+<br><br> <input type="text" id="inputG" readonly="true"> Decimal Degrees
+</div>
+
+<br>
+<h3>Little Rock Beer Map</h3>
+<br>
+<iframe src="ajd018.github.io/backup.html" height="700" width="700"></iframe>
+    
+</body>
+</html>
