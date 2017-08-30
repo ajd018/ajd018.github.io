@@ -20,6 +20,7 @@ div {
     background-color: #f2f2f2;
     padding: 20px;
     width: 700px;
+    margin:0 auto;
 }
 #d {
   display: none;
@@ -94,16 +95,16 @@ function updateResult()
 </script>
 <body>
 
-<h3>Decimal Degree to DMS Converter</h3>
+<center><h3>Decimal Degree to DMS Converter</h3></center>
 
 <div>
-<input type="text" id="c" onkeyup="convert('C')" >LAT Decimal Degrees<br>
+<input type="text" id="c" onkeyup="convert('C')" >LAT Decimal Degrees
 <input id="d" name="d" onkeyup="convert('D')"> 
 <input id="m" name="m" onkeyup="convert('M')"> 
 <input id="s" name="s" onkeyup="convert('S')"> 
 <input type="text" id="x">Degrees Minutes Seconds<br>
 
-<input type="text" id="cc" onkeyup="convert('CC')">LON Decimal Degrees<br>
+<input type="text" id="cc" onkeyup="convert('CC')">LON Decimal Degrees
 <input id="dd" name="dd" onkeyup="convert('DD')"> 
 <input id="mm" name="mm" onkeyup="convert('MM')"> 
 <input id="ss" name="ss" onkeyup="convert('SS')"> 
@@ -111,20 +112,20 @@ function updateResult()
 </div>
 
 
-<h3>DMS to Decimal Degree Converter</h3>
+<center><h3>DMS to Decimal Degree Converter</h3></center>
 
 <div onkeyup="updateResult()">
 <input type="text" id="inputA"> Degrees
 <input type="text" id="inputB"> Minutes
-<input type="text" id="inputC"> Seconds<br>
-<br><br> <input type="text" id="inputE" readonly="true">Decimal Degrees:<br>
+<input type="text" id="inputC"> Seconds
+<input type="text" id="inputE" readonly="true">Decimal Degrees:<br>
 </div>
 
 <div onkeyup="updateResult()">
 <br><input type="text" id="inputD"> Degrees
 <input type="text" id="inputE"> Minutes
-<input type="text" id="inputF"> Seconds<br> 
-<br><br> <input type="text" id="inputG" readonly="true"> Decimal Degrees
+<input type="text" id="inputF"> Seconds
+<input type="text" id="inputG" readonly="true"> Decimal Degrees
 </div>
 
     
