@@ -1,0 +1,15 @@
+"<UND><BOL>" & [job_name] & "</BOL></UND>" & vbNewLine &  [sponsor]  
+
+
+
+
+("<FNT name='Arial Black' size='18'>" & [LABELFIELD] & "</FNT>")
+
+
+
+
+
+
+
+"<UND><BOL>" & ("<FNT name='Arial Black' size='15'>" & [job_name]  & "</FNT>") & "</BOL></UND>" & vbNewLine &  [sponsor]
+
