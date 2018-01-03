@@ -3,8 +3,8 @@ import sys
 import arcpy
 
 mxd_path = r'\\cool\folder\bro'
-find_word = 'this'
-replace_word = 'that'
+find_word = ' - Proposed 2021 &amp; 2022 Projects'
+replace_word = ''
 
 #orig_stdout = sys.stdout
 #f = open(r'\\cool\folder\bro\NOCOPY.txt', 'w')
